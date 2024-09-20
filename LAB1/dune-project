@@ -5,22 +5,20 @@
 (generate_opam_files true)
 
 (source
- (github username/reponame))
+ (github rinaxosman/CSI-3120-group-43))
 
-(authors "Author Name")
+(authors "Rina Osman" "Alex Clements" "Sameed Jafri")
 
-(maintainers "Maintainer Name")
+(maintainers "Rina Osman" "Alex Clements" "Sameed Jafri")
 
 (license LICENSE)
 
-(documentation https://url/to/documentation)
+(documentation https://github.com/rinaxosman/CSI-3120-group-43/blob/main/LAB1)
 
 (package
  (name LAB1)
- (synopsis "A short synopsis")
- (description "A longer description")
+ (synopsis "CSI 3120 Group 43 Lab 1")
+ (description "Lab 1 for CSI 3120[A] Programming Language Concepts")
  (depends ocaml dune)
  (tags
-  (topics "to describe" your project)))
-
-; See the complete stanza docs at https://dune.readthedocs.io/en/stable/reference/dune-project/index.html
+  (topics "programming languages" "OCaml" "labs" "CSI 3120")))
