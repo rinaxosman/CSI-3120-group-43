@@ -7,15 +7,37 @@
 
 print_endline "Lab 1 - Group 43";
 
+(* Q1: map2 Tests *)
 (* map2: (int -> int -> int) -> int list -> int list -> int list *)
-  let rec map2 f lst1 lst2 = 
-    match (lst1, lst2) with
-    | ([], []) -> []
-    | (_::_, []) | ([], _::_) -> failwith "Lists must be of equal length"
-    | (x::xs, y::ys) -> (f x y) :: (map2 f xs ys)
-  in
-  let result_map2 = map2 (fun x y -> x + y) [1; 2; 3] [4; 5; 6] in
-  Printf.printf "Q1) map2 result: [%s]\n" (String.concat "; " (List.map string_of_int result_map2));
+let rec map2 f lst1 lst2 = 
+  match (lst1, lst2) with
+  | ([], []) -> []
+  | (_::_, []) | ([], _::_) -> failwith "Lists must be of equal length"
+  | (x::xs, y::ys) -> (f x y) :: (map2 f xs ys)
+
+in print_endline "";
+
+print_endline "Q1 Tests";
+print_endline "";
+(* Test 1 - fun x y -> x + y *)
+let result_map2 = map2 (fun x y -> x + y) [1; 2; 3] [4; 5; 6] in
+print_endline "Test 1 - fun x y -> x + y";
+print_endline "Input: [1; 2; 3], [4; 5; 6]";
+Printf.printf "Output: [%s]\n" (String.concat "; " (List.map string_of_int result_map2));
+print_endline "";
+(* Test 2 - fun x y -> x * y *)
+let result_map2_test2 = map2 (fun x y -> x * y) [2; 4; 6] [1; 3; 5] in
+print_endline "Test 2 - fun x y -> x * y";
+print_endline "Input: [2; 4; 6], [1; 3; 5]";
+Printf.printf "Output: [%s]\n" (String.concat "; " (List.map string_of_int result_map2_test2));
+print_endline "";
+(* Test 3 - fun x y -> x - y *)
+let result_map2_test3 = map2 (fun x y -> x - y) [10; 20; 30] [5; 10; 15] in
+print_endline "Test 3 - fun x y -> x - y";
+print_endline "Input: [10; 20; 30], [5; 10; 15]";
+Printf.printf "Output: [%s]\n" (String.concat "; " (List.map string_of_int result_map2_test3));
+
+print_endline "";
 
 (* filter_even: int list -> int list *)
   let rec filter_even lst =
