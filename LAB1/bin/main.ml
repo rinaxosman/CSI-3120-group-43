@@ -2,7 +2,7 @@
    CSI 3120: LAB 1 - Group 43
    - Alex Clements ()
    - Rina Osman (300222206)
-   - Sameed Jafri ()
+   - Sameed Jafri (300253861)
 *)
 
 print_endline "Lab 1 - Group 43";
