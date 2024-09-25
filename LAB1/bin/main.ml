@@ -122,20 +122,20 @@ let rec reduce f acc lst =
 
   (* Test 1 *)
   let result_reduce = reduce (fun x y -> x + y) 0 [1; 2; 3; 4] in
-  print_endline "Test 1 - fun x y -> x + y";
+  print_endline "Test 1";
   print_endline "Input: [1; 2; 3; 4]";
   Printf.printf "Output: %d\n" result_reduce;
   print_endline "";
 
   (* Test 2 *)
   let result_reduce_test2 = reduce (fun x y -> x * y) 1 [2; 3; 4; 5] in
-  print_endline "Test 2 - fun x y -> x * y";
+  print_endline "Test 2";
   print_endline "Input: [2; 3; 4; 5]";
   Printf.printf "Output: %d\n" result_reduce_test2;
   print_endline "";
 
   (* Test 3 *)
   let result_reduce_test3 = reduce (fun x y -> x - y) 10 [1; 2; 3] in
-  print_endline "Test 3 - fun x y -> x - y";
+  print_endline "Test 3";
   print_endline "Input: [1; 2; 3]";
   Printf.printf "Output: %d\n" result_reduce_test3;
