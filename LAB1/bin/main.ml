@@ -112,8 +112,8 @@ let compose_functions f g =
 (* reduce: ('a -> 'b -> 'a) -> 'a -> 'b list -> 'a *)
 let rec reduce f acc lst = 
   match lst with
-  | [] -> acc
   | x::xs -> reduce f (f acc x) xs
+  | [] -> acc
 
 (* Q4: reduce Tests *)
 
