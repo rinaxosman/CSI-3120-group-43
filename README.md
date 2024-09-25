@@ -2,6 +2,6 @@
 **Contents**: Weekly Labs and Final Group Project
 
 **Group 43**
-- Alex Clements 
-- Rina Osman 300222206
-- Sameed Jafri 300253861
+- Alex Clements (300237898)
+- Rina Osman (300222206)
+- Sameed Jafri (300253861)
