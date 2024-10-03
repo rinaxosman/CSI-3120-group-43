@@ -44,9 +44,9 @@ let read_job n =
   { start_time; duration; priority }
 
 (* function to handle reading multiple jobs from the user/terminal *)
-let rec read_jobs n acc =
-  if n <= 0 then acc
-  else read_jobs (n - 1) (read_job n :: acc)
+let rec read_jobs i n acc =
+  if i > n then acc
+  else read_jobs (i + 1) n (read_job i :: acc)
 
 (* Strategy #1: No Overlaps *)
 let schedule_jobs jobs =
@@ -81,7 +81,7 @@ let print_schedule jobs =
 let main () =
   print_endline "Lab 2 - Group 43";
   let n = read_int "How many jobs do you want to schedule? " in
-  let jobs = read_jobs n [] in
+  let jobs = read_jobs 1 n [] in
   let strategy = read_int "Choose a scheduling strategy (1 for No Overlaps, 2 for Max Priority, 3 for Minimize Idle Time): " in
   let scheduled_jobs = match strategy with
     | 1 -> schedule_jobs jobs
