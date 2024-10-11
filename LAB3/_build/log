@@ -1,11 +1,11 @@
-# C:\Users\rinax\AppData\Local\opam\default\bin\dune.exe exec LAB3
+# dune exec ./main.exe
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Shared cache location:
-# C:\Users\rinax\AppData\Local\Microsoft\Windows\INetCache\dune\db
+# C:\Users\samee\AppData\Local\Microsoft\Windows\INetCache\dune\db
 # Workspace root:
-# "C:\\Users\\rinax\\OneDrive\\Desktop\\CSI-3120-group-43\\LAB3"
-# Auto-detected concurrency: 16
+# "C:\\Users\\samee\\OneDrive\\Desktop\\CSI-3120-group-43\\LAB3"
+# Auto-detected concurrency: 12
 # Dune context:
 #  { name = "default"
 #  ; kind = "default"
@@ -15,4 +15,4 @@
 #  ; build_dir = In_build_dir "default"
 #  ; instrument_with = []
 #  }
-$ C:\Users\rinax\AppData\Local\opam\default\bin\ocamlc.opt.exe -config > C:\Users\rinax\AppData\Local\Temp\dune_e8cbf1_output
+$ C:\Users\samee\AppData\Local\opam\default\bin\ocamlc.opt.exe -config > C:\Users\samee\AppData\Local\Temp\dune_a79a11_output

@@ -5,6 +5,8 @@
    - Sameed Jafri (300253861)
 *)
 
+(* ChatGPT along with GitHub Copilot was used in the creation of this solution *)
+
 (* Helper function to read a float input from the user *)
 let read_float prompt =
   Printf.printf "%s" prompt;
@@ -41,89 +43,98 @@ type vehicle = {
 let read_location n =
   Printf.printf "Enter details for location %d:\n" n;
   let name = read_string "Location Name: " in
-  let x = read_float "X Coordinate: " in  (* Now reads float *)
-  let y = read_float "Y Coordinate: " in  (* Now reads float *)
+  let x = read_float "X Coordinate: " in
+  let y = read_float "Y Coordinate: " in
   let priority = read_int "Priority: " in
-  { name; x; y; priority }
+  {name; x; y; priority }
 
 (* Function to read the details of a vehicle *)
 let read_vehicle n =
   Printf.printf "Enter details for vehicle %d:\n" n;
   let capacity = read_int "Capacity: " in
-  { id = n; capacity }
+  {id = n; capacity }
+
+(* Function to sort locations by priority *)
+let sort_locations_by_priority locations =
+  List.sort (fun l1 l2 -> compare l2.priority l1.priority) locations
+
+(* Function to calculate the Euclidean distance between two locations *)
+let distance loco1 loco2 =
+  let dx = loco2.x -. loco1.x in
+  let dy = loco2.y -. loco1.y in
+  sqrt (dx *. dx +. dy *. dy)
 
 (* Custom function to split a list at a given index *)
 let rec split_at n lst =
   if n <= 0 then ([], lst)
   else match lst with
     | [] -> ([], [])
-    | x :: xs ->
-        let (left, right) = split_at (n - 1) xs in
-        (x :: left, right)
-
-(* Function to sort locations by priority *)
-let sort_locations_by_priority locations =
-  List.sort (fun l1 l2 -> compare l2.priority l1.priority) locations
+    | h :: t ->
+      (* left is the list of elements before the split point, and right is the list of elements after the split point *)
+      let (left, right) = split_at (n - 1) t in
+      (* prepend the head element to the left list and return the tuple *)
+      (h :: left, right)
 
 (* Function to assign locations to vehicles based on capacity *)
-let rec assign_locations_to_vehicles locations vehicles =
-  match vehicles with
-  | [] -> []
-  | v :: vs ->
-      let assigned, remaining = split_at v.capacity locations in
-      (v, assigned) :: assign_locations_to_vehicles remaining vs
-
-(* Function to calculate the Euclidean distance between two locations *)
-let distance loc1 loc2 =
-  let dx = loc2.x -. loc1.x in
-  let dy = loc2.y -. loc1.y in
-  sqrt (dx *. dx +. dy *. dy)
+let assign_locations_to_vehicles locations vehicles =
+  (* helper function aux to process the lists of locations and vehicles *)
+  let rec aux locations vehicles acc =
+    match vehicles with
+    | [] -> acc
+    | v :: vs ->
+      (* splitting the locations list at the vehicles capacity *)
+      let (assigned, remaining) = split_at v.capacity locations in
+      (* appendding the assigned locations of the vehicle to the accumulator and calling aux recursively with the remaining locations and vehicles *)
+      aux remaining vs ((v, assigned) :: acc)
+  in
+  (* calling aux with the initial lists of locations and vehicles and an empty accumulator *)
+  aux locations vehicles []
 
 (* Function to calculate the total distance of a vehicle's route *)
 let calculate_route_distance locations return_to_start =
-  match locations with
-  | [] -> 0.0
-  | first :: rest ->
-      let rec aux prev_loc locs total_dist =
-        match locs with
-        | [] -> total_dist
-        | loc :: ls ->
-            let dist = distance prev_loc loc in
-            aux loc ls (total_dist +. dist)
-      in
-      let total_dist = aux first rest 0.0 in
-      if return_to_start then total_dist +. distance (List.hd locations) first
-      else total_dist
+  (* helper function to perfrom the distance calculation *)
+  let rec aux locos acc =
+    match locos with
+    | [] | [_] -> acc
+    | loco1 :: (loco2 :: _ as rest) -> aux rest (acc +. distance loco1 loco2) in
+  let total_distance = aux locations 0.0 in
+  if return_to_start then
+    match locations with
+    | [] -> 0.0
+    | first :: _ -> total_distance +. distance (List.hd (List.rev locations)) first (* calculating distance from last location to first *)
+  else
+    total_distance
 
 (* Function to display the optimized routes for each vehicle *)
 let display_routes vehicle_routes return_to_start =
-  List.iter (fun (v, route) ->
-    Printf.printf "\nVehicle %d Route:\n" v.id;
-    List.iter (fun loc -> Printf.printf "  - %s\n" loc.name) route;
+  (* iterate through routes for each vehicle and print the details *)
+  List.iter (fun (vehicle, route) -> 
+    Printf.printf "Vehicle %d with capacity %d:\n" vehicle.id vehicle.capacity;
+    List.iter (fun location -> Printf.printf "%s (Priority: %d)\n" location.name location.priority) route;
     let total_distance = calculate_route_distance route return_to_start in
-    Printf.printf "Total Distance: %.2f\n" total_distance;
+    Printf.printf "Total Distance: %.2f\n" total_distance
   ) vehicle_routes
+
 
 (* Main function to gather inputs, optimize routes, and display results *)
 let main () =
-  (* Step 1: Get the number of locations and vehicles *)
+  (* Get the number of locations and vehicles *)
   let num_locations = read_int "How many delivery locations? " in
   let locations = List.init num_locations (fun i -> read_location (i + 1)) in
   
   let num_vehicles = read_int "How many vehicles? " in
   let vehicles = List.init num_vehicles (fun i -> read_vehicle (i + 1)) in
 
-  (* Step 2: Sort locations by priority *)
+  (* Sort locations by priority *)
   let sorted_locations = sort_locations_by_priority locations in
 
-  (* Step 3: Assign locations to vehicles *)
+  (* Assign locations to vehicles *)
   let vehicle_routes = assign_locations_to_vehicles sorted_locations vehicles in
 
-  (* Step 4: Ask if vehicles should return to the start *)
+  (* Ask if vehicles should return to the start *)
   let return_to_start = read_int "Should vehicles return to starting location? (1 for yes, 0 for no): " = 1 in
 
-  (* Step 5: Display the optimized routes *)
+  (* Display optimized routes*)
   display_routes vehicle_routes return_to_start
 
-(* Run the main function *)
 let () = main ()

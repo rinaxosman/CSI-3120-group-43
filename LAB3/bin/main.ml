@@ -5,6 +5,8 @@
    - Sameed Jafri (300253861)
 *)
 
+(* ChatGPT along with GitHub Copilot was used in the creation of this solution *)
+
 (* Helper function to read a float input from the user *)
 let read_float prompt =
   Printf.printf "%s" prompt;
@@ -62,27 +64,57 @@ let distance loco1 loco2 =
   let dy = loco2.y -. loco1.y in
   sqrt (dx *. dx +. dy *. dy)
 
-(* the functions below are not yet implemented *)
-
 (* Custom function to split a list at a given index *)
 let rec split_at n lst =
-  (* to do *)
-  failwith "Not implemented"
+  if n <= 0 then ([], lst)
+  else match lst with
+    | [] -> ([], [])
+    | h :: t ->
+      (* left is the list of elements before the split point, and right is the list of elements after the split point *)
+      let (left, right) = split_at (n - 1) t in
+      (* prepend the head element to the left list and return the tuple *)
+      (h :: left, right)
 
 (* Function to assign locations to vehicles based on capacity *)
-let rec assign_locations_to_vehicles locations vehicles =
-  (* to do *)
-  failwith "Not implemented"
+let assign_locations_to_vehicles locations vehicles =
+  (* helper function aux to process the lists of locations and vehicles *)
+  let rec aux locations vehicles acc =
+    match vehicles with
+    | [] -> acc
+    | v :: vs ->
+      (* splitting the locations list at the vehicles capacity *)
+      let (assigned, remaining) = split_at v.capacity locations in
+      (* appendding the assigned locations of the vehicle to the accumulator and calling aux recursively with the remaining locations and vehicles *)
+      aux remaining vs ((v, assigned) :: acc)
+  in
+  (* calling aux with the initial lists of locations and vehicles and an empty accumulator *)
+  aux locations vehicles []
 
 (* Function to calculate the total distance of a vehicle's route *)
 let calculate_route_distance locations return_to_start =
-  (* to do *)
-  failwith "Not implemented"
+  (* helper function to perfrom the distance calculation *)
+  let rec aux locos acc =
+    match locos with
+    | [] | [_] -> acc
+    | loco1 :: (loco2 :: _ as rest) -> aux rest (acc +. distance loco1 loco2) in
+  let total_distance = aux locations 0.0 in
+  if return_to_start then
+    match locations with
+    | [] -> 0.0
+    | first :: _ -> total_distance +. distance (List.hd (List.rev locations)) first (* calculating distance from last location to first *)
+  else
+    total_distance
 
 (* Function to display the optimized routes for each vehicle *)
 let display_routes vehicle_routes return_to_start =
-  (* to do *)
-  failwith "Not implemented"
+  (* iterate through routes for each vehicle and print the details *)
+  List.iter (fun (vehicle, route) -> 
+    Printf.printf "Vehicle %d with capacity %d:\n" vehicle.id vehicle.capacity;
+    List.iter (fun location -> Printf.printf "%s (Priority: %d)\n" location.name location.priority) route;
+    let total_distance = calculate_route_distance route return_to_start in
+    Printf.printf "Total Distance: %.2f\n" total_distance
+  ) vehicle_routes
+
 
 (* Main function to gather inputs, optimize routes, and display results *)
 let main () =
