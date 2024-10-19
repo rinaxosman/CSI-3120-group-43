@@ -5,7 +5,7 @@
    - Sameed Jafri (300253861)
 *)
 
-(* ChatGPT along, GitHub Copilot, and ocaml documentation was used in the creation of this solution *)
+(* GitHub Copilot, and ocaml documentation was used in the creation of this solution *)
 
 
 open printf
