@@ -1,8 +1,18 @@
-# dune init project LAB4
+# C:\Users\aclem\AppData\Local\opam\default\bin\dune.exe exec LAB4
 # OCAMLPARAM: unset
 # Shared cache: disabled
 # Shared cache location:
-# C:\Users\samee\AppData\Local\Microsoft\Windows\INetCache\dune\db
-# Workspace root:
-# "C:\\Users\\samee\\OneDrive\\Desktop\\CSI-3120-group-43\\LAB4"
-# Auto-detected concurrency: 12
+# C:\Users\aclem\AppData\Local\Microsoft\Windows\INetCache\dune\db
+# Workspace root: "F:\\School\\UNIVERSITY\\SECOND YEAR\\CSI2132 - Databases
+# 1\\hotels app\\CSI-3120-group-43\\LAB4"
+# Auto-detected concurrency: 8
+# Dune context:
+#  { name = "default"
+#  ; kind = "default"
+#  ; profile = Dev
+#  ; merlin = true
+#  ; fdo_target_exe = None
+#  ; build_dir = In_build_dir "default"
+#  ; instrument_with = []
+#  }
+$ C:\Users\aclem\AppData\Local\opam\default\bin\ocamlc.opt.exe -config > C:\Users\aclem\AppData\Local\Temp\dune_cc0aa5_output
