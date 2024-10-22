@@ -4,5 +4,5 @@ lib: [
   "_build/install/default/lib/LAB4/opam"
 ]
 bin: [
-  "_build/install/default/bin/LAB4.exe"
+  "_build/install/default/bin/LAB4"
 ]

@@ -7,17 +7,10 @@
 
 (* GitHub Copilot, and ocaml documentation was used in the creation of this solution *)
 
-
 module Board = struct
   type t = int array
 
-  let is_valid c = c >= 1 && c <= 4
-
   let get (b: t) (x, y) = b.(x + y * 4)
-
-  let get_as_string (b: t) pos =
-    let i = get b pos in
-    if is_valid i then string_of_int i else "."
 
   let with_val (b: t) (x, y) v =
     let b = Array.copy b in
@@ -50,7 +43,6 @@ module Board = struct
         done;
         !valid_subgrid
 
-
   let verify_initial_grid b =
     let valid = ref true in
     for y = 0 to 3 do
@@ -68,23 +60,16 @@ module Board = struct
     done;
     !valid
 
-
-
   let of_list l : t =
     let b = Array.make 16 0 in
     List.iteri (fun y r -> List.iteri (fun x e ->
       b.(x + y * 4) <- if e >= 0 && e <= 4 then e else 0) r) l;
     b
 
+  (* Function to print the board in clean row-by-row format *)
   let print b =
     for y = 0 to 3 do
-      for x = 0 to 3 do
-        Format.printf (if x = 0 then "%s" else if x mod 3 = 0 then " | %s" else "  %s") (get_as_string b (x, y));
-      done;
-      if y < 3 then
-        if y mod 2 = 1 then Format.printf "\n---------+---------+--------\n"
-        else Format.printf "\n         |         |        \n"
-      else Format.printf "\n"
+      Printf.printf "%d, %d, %d, %d\n" (get b (0, y)) (get b (1, y)) (get b (2, y)) (get b (3, y))
     done
 
   let available b (x, y) =
@@ -122,9 +107,7 @@ module Board = struct
       )
     | [] -> None
 
-
-
-  end;;
+end
 
 let solve b =
   if not (Board.verify_initial_grid b) then (
@@ -133,8 +116,7 @@ let solve b =
   ) else
     match Board.fill b (0, 0) with
     | Some solution -> Some solution
-    | None -> Format.printf "No solution found\n"; None
-
+    | None -> Format.printf ""; None
 
 let () =
   let test_grids = [
@@ -162,14 +144,13 @@ let () =
   ] in
 
   List.iteri (fun i puzzle -> 
-    Printf.printf "\nSolving Puzzle %d:\n" (i + 1);
+    Printf.printf "\nSolving Puzzle %d:\n\n" (i + 1);
     let b = Board.of_list puzzle in
     Printf.printf "Initial board:\n";
     Board.print b;
     match solve b with 
       | Some solution -> 
-        Printf.printf "Solution:\n";
+        Printf.printf "\nSolution:\n";
         Board.print solution
-      | None -> ()
+      | None -> Printf.printf "\nNo solution found!\n"
   ) test_grids
-  
