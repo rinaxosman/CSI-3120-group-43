@@ -1,3 +1,8 @@
+% CSI 3120: LAB 5 - Group 43
+% - Alex Clements (300237898)
+% - Rina Osman (300222206)
+% - Sameed Jafri (300253861)
+
 % Define the main predicate to solve the puzzle.
 solve_puzzle(Houses, GreenIndex) :-
     % Define the possible house colors.
@@ -36,6 +41,3 @@ next_to(X, Y, List) :-
 % Helper predicate to check if two elements are not next to each other in a list.
 not_next_to(X, Y, List) :- 
     \+ next_to(X, Y, List).  % X is not next to Y
-
-% Example query:
-% ?- solve_puzzle(Houses, GreenIndex).
