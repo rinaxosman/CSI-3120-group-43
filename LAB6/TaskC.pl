@@ -35,6 +35,11 @@ filter_and_transform(L,R) :-
     filter_and_transform(L, [], RevResult), 
     reverse(RevResult, R).
 
+% Base case: stop after exactly 5 primes are processed
+filter_and_transform(_, Acc, Result) :- 
+    length(Acc, 5), !,
+    reverse(Acc, Result).
+
 % Base case: empty list
 filter_and_transform([], Acc, Acc) :- !.
 
