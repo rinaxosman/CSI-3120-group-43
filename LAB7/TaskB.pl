@@ -6,17 +6,11 @@
 % DCG for character descriptions
 character_description --> 
     character_type(Type),
-    [','],
-    character_subtype(Type, Subtype),
-    [','],  
+    character_subtype(Type, Subtype),  
     sequence_number,
-    [','],
-    movement_direction(Type),
-    [','],
+    movement_direction(Type, Weapon),
     health_level,
-    [','],
-    weapon(Type),
-    [','],
+    weapon(Type, Weapon),
     movement_style.
 
 % DCG for character type
@@ -38,26 +32,31 @@ sequence_number -->
     [Number],
     { integer(Number), Number > 0 }.
 
+% DCG for weapon
+weapon(hero, has_weapon) --> 
+    [has_weapon].
+
+weapon(hero, no_weapon) -->
+    [no_weapon].
+
+weapon(enemy, no_weapon) -->
+    [no_weapon].
+
+
 % DCG for movement direction
-movement_direction(enemy) --> 
+movement_direction(enemy, _) --> 
     [towards].
 
-movement_direction(hero) -->
-    [towards];
+movement_direction(hero, has_weapon) -->
+    [towards].
+
+movement_direction(hero, no_weapon) -->
     [away].
 
 % DCG for health level
 health_level --> 
     [Level],
     { member(Level, [very_weak, weak, normal, strong, very_strong]) }.
-
-% DCG for weapon
-weapon(hero) --> 
-    [has_Weapon];
-    [no_weapon].
-
-weapon(enemy) -->
-    [no_weapon].
 
 % DCG for movement style
 movement_style --> 
