@@ -3,6 +3,8 @@
 % - Rina Osman (300222206)
 % - Sameed Jafri (300253861)
 
+% ChatGPT assistance used for saving and loading implementation
+
 :- use_module(library(dcg/basics)).
 :- dynamic destination/4.
 :- dynamic expense/3.
@@ -35,7 +37,21 @@ validate_budget(_) :-
 
 % Filter destinations by date range
 filter_destinations_by_date(StartDate, EndDate, Destinations) :-
-    findall(Name, (destination(Name, Start, End, _), Start >= StartDate, End =< EndDate), Destinations).
+    findall(Name, 
+        (
+            destination(Name, Start, End, _),
+            date_to_number(Start, StartNum),
+            date_to_number(End, EndNum),
+            date_to_number(StartDate, QueryStartNum),
+            date_to_number(EndDate, QueryEndNum),
+            StartNum >= QueryStartNum,
+            EndNum =< QueryEndNum
+        ), 
+        Destinations).
+
+% Helper predicate: Convert a date (Year-Month-Day) to a numeric value for comparison
+date_to_number(date(Year, Month, Day), Number) :-
+    Number is Year * 10000 + Month * 100 + Day.
 
 % Filter expenses by category
 filter_expenses_by_category(Category, Expenses) :-
@@ -63,9 +79,15 @@ execute_command(add_destination(Name, Start, End, Budget)) :-
 save_journey(File) :-
     open(File, write, Stream),
     forall(destination(Name, Start, End, Budget),
-        write(Stream, destination(Name, Start, End, Budget)), nl(Stream)),
+        (
+            write_term(Stream, destination(Name, Start, End, Budget), [fullstop(true)]),
+            nl(Stream)
+        )),
     forall(expense(Destination, Category, Amount),
-        write(Stream, expense(Destination, Category, Amount)), nl(Stream)),
+        (
+            write_term(Stream, expense(Destination, Category, Amount), [fullstop(true)]),
+            nl(Stream)
+        )),
     close(Stream).
 
 % Load journey from file
@@ -73,5 +95,14 @@ load_journey(File) :-
     exists_file(File),
     open(File, read, Stream),
     repeat,
-    read(Stream, Term),
-    ( Term == end_of_file -> !, close(Stream) ; assert(Term), fail ).
+    read_term(Stream, Term, []),
+    ( Term == end_of_file -> 
+        close(Stream), !
+    ; 
+        assertz(Term), 
+        fail ).
+
+% Error handling for missing file
+load_journey(File) :-
+    \+ exists_file(File),
+    writeln('Error: File does not exist.').
