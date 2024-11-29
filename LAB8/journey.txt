@@ -1,0 +1,3 @@
+destination(Paris,date(2024,12,10),date(2024,12,20),1500). 
+destination(Rome,date(2024,11,15),date(2024,11,25),2000). 
+expense(Rome,food,300). 
