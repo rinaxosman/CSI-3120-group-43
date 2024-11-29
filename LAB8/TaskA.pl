@@ -4,6 +4,9 @@
 % - Sameed Jafri (300253861)
 
 % ChatGPT assistance used for saving and loading implementation
+% other sources used:
+% - https://stackoverflow.com/questions/72836302/how-to-use-assert-and-retract-in-swi-prolog
+% - https://www.swi-prolog.org/pldoc/man?predicate=retract/1
 
 :- use_module(library(dcg/basics)).
 :- dynamic destination/4.
